@@ -1,0 +1,82 @@
+h1{
+    color: #e9ebee;
+}
+
+body {
+    margin: 0;
+    font-family: Fontin, Arial, Verdana;
+    font-size: 18px;
+    background-color: #e9ebee;
+}
+
+input {
+    font-family: Fontin, Arial, Verdana;
+    width: 100%;
+    font-size: 18px;
+    padding: 2px;
+}
+
+button {
+    font-family: Fontin, Arial, Verdana;
+    font-size: 18px;
+}
+
+input[type=radio] {
+    width: auto;
+}
+
+textarea {
+    width: 100%;
+}
+
+ul {
+    list-style: none;
+}
+
+ul a {
+    text-decoration: none;
+}
+
+.required {
+    color: red;
+}
+
+.container {
+    margin: 0 auto;
+    width: 1068px;
+}
+
+
+/*============== NAVBAR  ============*/
+
+.usernav {
+    background-color: #2b5261;
+    overflow: auto;
+}
+
+ul {
+    float: left; /*Posisiona el contenido del nav a la izquierda*/
+    margin: 0;
+    padding: 0;
+}
+
+.ul-right {
+    float: right; /*Posisiona el contenido del nav a la izquierda*/
+    margin: 0;
+    padding: 0;
+}
+
+.usernav ul li {
+    display: inline;
+}
+
+.usernav ul li a {
+    display: inline-block;
+    color: white;
+    padding: 2rem 1rem;
+}
+
+.usernav ul li a:hover {
+    
+    color: #ff4242;
+}
