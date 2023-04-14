@@ -53,16 +53,60 @@ $user = $_SESSION['id'];
         <br>
         <h1>Películas</h1>
         <div class="ContenedorGrid">
-
-            <!--$_SESSION['id_movie_to_show'] = $checkdb['id']; ##LO USARÉ PARA IDENTIFICAR EL VIDEO--> 
-
-         </div>
-
-
-<?php
-   
-
+        <div class="ContenedorGrid">
+        <?php
+        if (isset($_POST['movie_filter'])) {
+            if ($_POST['movie_filter'] == "alphabetical") {
+                $sql = "SELECT * FROM movies ORDER BY name ASC";
+            } elseif ($_POST['movie_filter'] == "published_date") {
+                $sql = "SELECT * FROM movies ORDER BY rdate ASC";
+            } elseif ($_POST['movie_filter'] == "viewers") {
+                $sql = "SELECT * FROM movies ORDER BY viewers DESC";
+            }
+        } else {
+            $sql = "SELECT * FROM movies";
+        }
+        $result = mysqli_query($conn, $sql);
+        $found = false;
+        while($checkdb=mysqli_fetch_array($result)){
+            if (isset($_POST['movie_search'])) {
+                $movie_name = $_POST['movie_name'];
+                #Buscar película
+                if ($checkdb['name'] == $movie_name) {
+                    echo("<div class='grid-item'>");
+                    echo ("<img alt='' src=" . $checkdb['imgpath'] . "  width='340' height='220'></a>");
+                    echo ("<figcaption>" . $checkdb['name'] . "</figcaption>");
+                    echo("<form method='post' action=''>");
+                    echo("<br><input type='submit' value='Ver' name='showmovie". $checkdb['id'] ."'><br>");
+                    echo("</form>");
+                    echo("</div>");
+                    global $found;
+                    $found = true;
+                }
+            } else {
+                #Listado de todas las peliculas
+                echo("<div class='grid-item'>");
+                echo ("<img alt='' src=" . $checkdb['imgpath'] . "  width='340' height='220'></a>");
+                echo ("<figcaption>" . $checkdb['name'] . "</figcaption>");
+                echo("<form method='post' action=''>");
+                echo("<br><input type='submit' value='Ver' name='showmovie". $checkdb['id'] ."'><br>");
+                echo("</form>");
+                echo("</div>");
+            }
+            if (isset($_POST['showmovie'.$checkdb['id']])) {
+                $_SESSION['id_movie_to_show'] = $checkdb['id'];
+                echo '<script language="javascript">window.location = "movie.php";</script>';
+            }
+        }
+        #Resultado si no encuentra una película
+        if ($found == false and isset($_POST['movie_search'])) {
+            echo("<h2>No se ha encontrado ningún resultado</h2>");
+        }
         ?>
+        </main>
+    </div>
+
+
 <br><br>
 <div>
     <?php include 'includes/footer.php';?>
