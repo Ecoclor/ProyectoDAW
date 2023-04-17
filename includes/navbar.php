@@ -2,24 +2,8 @@
 <div class="usernav">
 
     <ul> <!-- Barra de opciones (Zona izquierda)-->
-    <li><a href="home.php">Inicio</a></li><li><a href="profile.php">Perfil</a></li>
-    <?php 
-        $sql = "SELECT * FROM users WHERE user_privileges = 'admin' ";
-        $result = mysqli_query($conn, $sql);
-
-        $user = $_SESSION['id'];
-
-        while($checkdb=mysqli_fetch_array($result)){
-
-            if($checkdb['id'] == $user && $checkdb['user_privileges'] == 'admin'){
-
-                echo "<li><a href='admin.php'>Administrar cuentas</a></li>";
-
-            }
-
-        }    
-
-    ?>
+    <li><a href="home.php">Inicio</a></li>
+    
     </ul>
     <ul class="ul-right"> <!--  Barra de opciones (Zona derecha)-->
         <li><a href="logout.php">Cerrar sesión <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">

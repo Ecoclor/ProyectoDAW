@@ -53,7 +53,7 @@ $user = $_SESSION['id'];
         <br>
         <h1>Películas</h1>
         <div class="ContenedorGrid">
-        <div class="ContenedorGrid">
+
         <?php
         if (isset($_POST['movie_filter'])) {
             if ($_POST['movie_filter'] == "alphabetical") {
