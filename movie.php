@@ -37,6 +37,8 @@ $conn = connect();
         <div class="container">
 <?php 
 
+##Incrementar visitas
+mysqli_query($conn, "UPDATE movies SET viewers = (viewers + 1) WHERE id=$current_movie");
 
 ##Pelicula seleccionada
 $sql = "SELECT * FROM movies WHERE id=$current_movie";

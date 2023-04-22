@@ -1,8 +1,8 @@
 
 <div class="usernav">
 
-    <ul> <!-- Barra de opciones (Zona izquierda)-->
-    <li><a href="home.php">Inicio</a></li>
+<ul> <!-- Barra de opciones (Zona izquierda)-->
+    <li><img width="40" height="40" src="data/images/logo.png" alt=""> <a href="home.php">Inicio</a></li><li><a href="profile.php">Perfil</a></li>
     
     </ul>
     <ul class="ul-right"> <!--  Barra de opciones (Zona derecha)-->
