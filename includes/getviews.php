@@ -1,6 +1,6 @@
 <?php
 
-require($_SERVER['DOCUMENT_ROOT'] . "/php/rasppi/db/db.php");
+require($_SERVER['DOCUMENT_ROOT'] . "/php/proyectodaw/db/db.php");
 
 $conn = connect();
 

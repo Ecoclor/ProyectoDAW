@@ -18,7 +18,7 @@ $conn = connect();
 <head>
     <title>Video</title>
     <link rel="stylesheet" type="text/css" href="resources/css/main.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO' crossorigin='anonymous'>
     <script src="./resources/js/chart.min.js"></script>
     <script src="./resources/js/main.js"></script>
@@ -86,6 +86,14 @@ while($checkdb=mysqli_fetch_array($result)){
 }
 
 ?> 
+
+</div>
+    <?php include 'includes/comment_box/comment_box.php'; ?>
+    <br><br>
+    <script src="resources/js/jquery.js"></script>
+    
+<div>
+
 
 <?php include 'includes/footer.php'; ?>
 </div>

@@ -1,13 +1,18 @@
 <?php 
 require 'db/db.php';
 session_start();
+// Comprobar sesion
+if (!isset($_SESSION['id'])) {
+    header("location:index.php");
+}
+// Conectar con BBDD
 $conn = connect();
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Registrarse</title>
+    <title>Adminitración de cuentas</title>
     <link rel="stylesheet" type="text/css" href="resources/css/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -46,6 +51,7 @@ $conn = connect();
 
 
     </style>
+    <script src="./resources/js/chart.min.js"></script>
     <script language="javascript">
 
     </script>
@@ -53,15 +59,15 @@ $conn = connect();
 <body>
     <div class="container">
 
-    <header class="text-center container-xxxl">
+        <?php include 'includes/navbar.php';?>
 
-    </header>
-    </div>
         <div >
         <br>
-        <h1>Formulario de registro</h1>
+        <h1>Administración e información sobre usuarios</h1>
 
-            <div class='createcontainer' id = 'conn'>
+        <button id='butn' onclick='fun()'>Agregar nuevo usuario</button>
+
+            <div class='createcontainer' id = 'conn' style = 'display: none'>
             <form method='post' action='' enctype='multipart/form-data'>
 
                 <form method="post" onsubmit="return validateRegister()">
@@ -147,6 +153,11 @@ $conn = connect();
                     <br>
                     <!--Privilegios-->
                     <br>
+                    <label>Permisos de administrador</label><br>
+                    <input type="radio" name="userprivileges" value="admin" id="si" class="userprivileges">
+                    <label>Sí</label>
+                    <input type="radio" name="userprivileges" value="regular" id="si" class="userprivileges" checked>
+                    <label>No</label>
                     <div class="required"></div>
                     <br>
                     <!--Submit-->
@@ -154,6 +165,10 @@ $conn = connect();
                     <br><br>
                 </form>
                 </form>
+            </div>
+
+
+            <div class='deletecontainer' id = 'conn' style = 'display: none'>
             </div>
 
     </div>
@@ -171,6 +186,7 @@ $conn = connect();
                 $userbirthdate = $_POST['selectyear'] . '-' . $_POST['selectmonth'] . '-' . $_POST['selectday'];
                 $usergender = $_POST['usergender'];
                 $userhometown = $_POST['userhometown'];
+                $userprivileges = $_POST['userprivileges'];
 
                 // Comprobar duplicación de datos
                 $query = mysqli_query($conn, "SELECT user_nickname, user_email FROM users WHERE user_nickname = '$usernickname' OR user_email = '$useremail'");
@@ -189,15 +205,52 @@ $conn = connect();
                 }
                 // Insertar datos
                 $sql = "INSERT INTO users(user_firstname, user_lastname, user_nickname, user_password, user_email, user_gender, user_birthdate, user_hometown, user_privileges)
-                        VALUES ('$userfirstname', '$userlastname', '$usernickname', '$userpassword', '$useremail', '$usergender', '$userbirthdate', '$userhometown', 'regular')";
+                        VALUES ('$userfirstname', '$userlastname', '$usernickname', '$userpassword', '$useremail', '$usergender', '$userbirthdate', '$userhometown', '$userprivileges')";
                 $query = mysqli_query($conn, $sql);
-                echo '<script language="javascript">window.location = "index.php";</script>';
+
             }
 
         ?>
 
     </div>
 
+        <div class="ContenedorGrid">
+
+        <?php
+          $sql = "SELECT * FROM users";
+          $result = mysqli_query($conn, $sql);
+
+          
+          while($checkdb=mysqli_fetch_array($result)){
+                echo("<div class='grid-item'>");
+
+                echo ("<img alt='Remote Desktop' src='./data/images/profiles/prof.png'  width='100'></a>");
+                echo ("<figcaption>". $checkdb['user_nickname'] . "</figcaption>");
+                echo("<br>");
+                if($checkdb['id'] != ($_SESSION['id']) ){
+                    echo("<form method='post' action=''>");
+                    echo("<input id='deleteInputs' type='submit' value='Borrar usuario' name='delete". $checkdb['id'] ."'><br><br>");
+                    echo("<input type='submit' value='Modificar datos' name='modify".$checkdb['id'] ."'>");
+                    echo("</form>");
+                }
+                echo("</div>");
+
+                if (isset($_POST['delete'.$checkdb['id']])) {
+
+                    $sql = "DELETE FROM users WHERE id='".$checkdb['id']."'";
+                    $result = mysqli_query($conn, $sql);
+                    echo '<script language="javascript">alert("Usuario borrado correctamente ' . $checkdb['user_nickname'] .'");  window.location = "admin.php";</script>';
+                }
+                if (isset($_POST['modify'.$checkdb['id']])) {
+
+                    $_SESSION['id_modify_user'] = $checkdb['id'];
+                    echo '<script language="javascript">window.location = "modifyuser.php";</script>';
+                }
+            }
+
+        ?>
+
+    <div>
     <br><br>
     <footer>
         <?php include 'includes/footer.php'; ?>
@@ -206,3 +259,17 @@ $conn = connect();
 
 </body>
 </html>
+
+<script type="text/javascript">
+    var flag = false;
+    var div = document.getElementById("conn");
+
+    function fun() {
+        if (flag ^= true) {
+                         div.style.display = "block"; // mostrar formulario 
+        } else {
+                         div.style.display = "none"; // ocultar formulario 
+        }
+    }
+
+    </script>
