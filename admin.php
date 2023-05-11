@@ -187,6 +187,7 @@ $conn = connect();
                 $usergender = $_POST['usergender'];
                 $userhometown = $_POST['userhometown'];
                 $userprivileges = $_POST['userprivileges'];
+                $defaultimg = 'data/images/profiles/1.png';
 
                 // Comprobar duplicación de datos
                 $query = mysqli_query($conn, "SELECT user_nickname, user_email FROM users WHERE user_nickname = '$usernickname' OR user_email = '$useremail'");
@@ -204,8 +205,8 @@ $conn = connect();
                     }
                 }
                 // Insertar datos
-                $sql = "INSERT INTO users(user_firstname, user_lastname, user_nickname, user_password, user_email, user_gender, user_birthdate, user_hometown, user_privileges)
-                        VALUES ('$userfirstname', '$userlastname', '$usernickname', '$userpassword', '$useremail', '$usergender', '$userbirthdate', '$userhometown', '$userprivileges')";
+                $sql = "INSERT INTO users(user_firstname, user_lastname, user_nickname, user_password, user_email, user_gender, user_birthdate, user_hometown, user_privileges, profile_picture_path)
+                        VALUES ('$userfirstname', '$userlastname', '$usernickname', '$userpassword', '$useremail', '$usergender', '$userbirthdate', '$userhometown', '$userprivileges', '$defaultimg')";
                 $query = mysqli_query($conn, $sql);
 
             }
@@ -224,7 +225,7 @@ $conn = connect();
           while($checkdb=mysqli_fetch_array($result)){
                 echo("<div class='grid-item'>");
 
-                echo ("<img alt='Remote Desktop' src='./data/images/profiles/prof.png'  width='100'></a>");
+                echo ('<img alt="Remote Desktop" src="' . $checkdb['profile_picture_path'] . '" width="100"></a>');
                 echo ("<figcaption>". $checkdb['user_nickname'] . "</figcaption>");
                 echo("<br>");
                 if($checkdb['id'] != ($_SESSION['id']) ){

@@ -171,6 +171,7 @@ $conn = connect();
                 $userbirthdate = $_POST['selectyear'] . '-' . $_POST['selectmonth'] . '-' . $_POST['selectday'];
                 $usergender = $_POST['usergender'];
                 $userhometown = $_POST['userhometown'];
+                $defaultimg = 'data/images/profiles/1.png';
 
                 // Comprobar duplicación de datos
                 $query = mysqli_query($conn, "SELECT user_nickname, user_email FROM users WHERE user_nickname = '$usernickname' OR user_email = '$useremail'");
@@ -188,8 +189,8 @@ $conn = connect();
                     }
                 }
                 // Insertar datos
-                $sql = "INSERT INTO users(user_firstname, user_lastname, user_nickname, user_password, user_email, user_gender, user_birthdate, user_hometown, user_privileges)
-                        VALUES ('$userfirstname', '$userlastname', '$usernickname', '$userpassword', '$useremail', '$usergender', '$userbirthdate', '$userhometown', 'regular')";
+                $sql = "INSERT INTO users(user_firstname, user_lastname, user_nickname, user_password, user_email, user_gender, user_birthdate, user_hometown, user_privileges, profile_picture_path)
+                        VALUES ('$userfirstname', '$userlastname', '$usernickname', '$userpassword', '$useremail', '$usergender', '$userbirthdate', '$userhometown', 'regular', '$defaultimg')";
                 $query = mysqli_query($conn, $sql);
                 echo '<script language="javascript">window.location = "index.php";</script>';
             }
