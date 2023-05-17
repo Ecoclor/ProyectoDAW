@@ -20,8 +20,9 @@ $conn = connect();
 <html>
 <head>
     <title>Rasppi - Home</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="resources/css/main.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
 
 
@@ -38,6 +39,52 @@ $result = mysqli_query($conn, $sql);
 
 $user = $_SESSION['id'];
 
+while($checkdb=mysqli_fetch_array($result)){
+    if($checkdb['id'] == $user && $checkdb['user_privileges'] == 'admin'){  #Agregar nueva pelicula
+        $_SESSION['user_priv'] = 'admin';
+        echo("
+        <br>
+        <button id='butn' onclick='fun()'>Agregar película</button>
+        <div class='createcontainer' id = 'conn' style = 'display: none'>
+        <form method='post' action='' enctype='multipart/form-data'>
+        <h1>Datos de película</h1>
+                    
+        <!--Nombre de video-->
+        <label>Nombre de la película</label><br>
+        <input type='text'  class='form-control' name='moviename' id='moviename'>
+        <div class='required'></div>
+        <br>
+        <!--Genero-->
+        <label>Género</label><br>
+        <input type='text'  class='form-control' name='genre' id='genre'>
+        <div class='required'></div>
+        <br>
+        <!--Fecha de publicación-->
+        <label>Año de estreno</label><br>
+        <input type='number'  class='form-control' minlength='1980' maxlength='2023' name='publishdate' id='publishdate'>
+        <div class='required'></div>
+        <br>
+        <!--Descripciónn-->
+        <label>Descripción</label><br>
+        <input type='text'  class='form-control' name='moviedescription' id='moviedescription'>
+        <div class='required'></div>
+        <br>
+        <!--Miniatura-->
+        <label>Miniatura de video</label><br>
+        <input type='file'  class='form-control' name='movieimage' id='movieimage'  accept='image/png, image/jpeg'>
+        <br>
+        <!--Video-->
+        <label>Video</label><br>
+        <input type='file'  class='form-control' name='movie' id='movie'  accept='video/mp4,video/x-m4v,video/*'>
+        <br>
+        <input type='submit' value='Añadir Aplicación' name='AddVideo'>
+        <br><br>
+        </form>
+    </div>
+        
+        ");
+    }
+}
 
 ?>
       <main>
@@ -105,7 +152,57 @@ $user = $_SESSION['id'];
         ?>
         </main>
     </div>
-
+    </div>
+    <script type="text/javascript">
+        var flag = false;
+        var div = document.getElementById("conn");
+        function fun() {
+            if (flag ^= true) {
+                            div.style.display = "block"; // mostrar formulario App
+            } else {
+                            div.style.display = "none"; // ocultar formulario App
+            }
+        }
+    </script>
+<?php
+            $conn = connect();
+            if (isset($_POST['AddVideo'])) { // Registrar datos pelicula
+                
+                $TargetMovieImage = "data/images/miniatures/".basename($_FILES['movieimage']['name']);
+                $TargetMovie = "data/videos/".basename($_FILES['movie']['name']);
+                $MovieName = $_POST['moviename'];
+                $Genre = $_POST['genre'];
+                $PublishDate = $_POST['publishdate'];
+                $MovieDescription = $_POST['moviedescription'];
+                $MovieImage =$_FILES['movieimage']['name'];
+                $Movie = $_FILES['movie']['name'];
+                // Insertar datos
+                $sql = "INSERT INTO movies(`name`, `genre`, `rdate`, `decription`, `imgpath`, `videopath`, `id_user`)
+                        VALUES ('$MovieName', '$Genre','$PublishDate','$MovieDescription', '$TargetMovieImage', '$TargetMovie' , $user )";
+                if (file_exists($TargetMovie)) {
+                    echo "El vídeo ya existe";
+                } else {
+                    if (move_uploaded_file($_FILES["movieimage"]["tmp_name"], $TargetMovieImage)) {
+                        if (move_uploaded_file($_FILES["movie"]["tmp_name"], $TargetMovie)) {
+                            echo "The file ". htmlspecialchars( basename( $_FILES["movieimage"]["name"])). " has been uploaded.\n";
+                            if (mysqli_query($conn, $sql)) {
+                                echo "Vídeo añadido";
+                                echo '<script language="javascript">alert("Video añadido correctamente");  window.location = "home.php";</script>';
+                            } else {
+                                echo "Error al añadir el vídeo";
+                                unlink($TargetMovieImage);
+                                unlink($TargetMovie);
+                            }
+                        } else {
+                            echo "Error al subir el vídeo";
+                            unlink($TargetMovieImage);
+                        }
+                    } else {
+                        echo "Error al subir la imagen";
+                    }
+                }
+            }
+        ?>
 
 <br><br>
 <div>

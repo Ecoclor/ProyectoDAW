@@ -13,7 +13,7 @@
 
             if($checkdb['id'] == $user && $checkdb['user_privileges'] == 'admin'){
 
-                echo "<li><a href='admin.php'>Administrar cuentas</a></li>";
+                echo "<li><a href='admin.php'>Administrar cuentas</a></li><li><a href='statistics.php'>Estadísticas</a></li>";
 
             }
 

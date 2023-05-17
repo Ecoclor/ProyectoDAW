@@ -251,7 +251,8 @@ $conn = connect();
 
         ?>
 
-    <div>
+        </div>
+        
     <br><br>
     <footer>
         <?php include 'includes/footer.php'; ?>
