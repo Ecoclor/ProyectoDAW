@@ -151,8 +151,7 @@ while($checkdb=mysqli_fetch_array($result)){
         }
         ?>
         </main>
-    </div>
-    </div>
+
     <script type="text/javascript">
         var flag = false;
         var div = document.getElementById("conn");

@@ -80,3 +80,35 @@ ul {
     
     color: #ff4242;
 }
+
+	
+/*============== HEADINGS AND LINKS ============*/
+h1 {
+    font-family: Fontin SmallCaps;
+    color: #2b5261;
+    font-weight: normal;
+    text-align: center;
+}
+h2 {
+    font-family: Fontin SmallCaps;
+    color: gray;
+    font-weight: normal;
+    font-size: 120%;
+    margin-bottom: 0;
+}
+h3,
+a.profilelink {
+    font-family: Fontin SmallCaps;
+    color: gray;
+    font-weight: normal;
+    font-size: 120%;
+    margin-bottom: 0;
+    margin-top: 0;
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: 12px;
+    text-decoration: none;
+}
+a.profilelink:hover {
+    text-decoration: underline;
+}

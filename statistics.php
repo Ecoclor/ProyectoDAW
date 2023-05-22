@@ -7,6 +7,33 @@ if (!isset($_SESSION['id'])) {
 }
 // Conectar con BBDD
 $conn = connect();
+
+//PDF
+
+require('fpdf/fpdf.php');
+
+$pdf = new FPDF(); //Create instance
+
+$pdf->AddPage(); //Add page
+
+$pdf->SetFont('Arial', 'B', 18); // Font and
+
+$pdf->Cell(0, 10, 'Estadisticas de visitas', 0, 1, 'C'); //Title
+
+$sql = "SELECT * FROM movies";
+$result = mysqli_query($conn, $sql);
+
+$data = array();
+
+while($checkdb=mysqli_fetch_array($result)){
+
+    $pdf->SetFont('Arial', '', 12);
+    $pdf->Cell(0, 10, 'Video: ' . $checkdb['name'] . ' | Vistas: ' . $checkdb['viewers'], 0, 1);
+}
+
+// Save PDF
+$pdf->Output('vistasVideos.pdf', 'F');
+
 ?>
 
 <!DOCTYPE html>
@@ -52,6 +79,7 @@ $conn = connect();
 
 
     </style>
+    
     <script src="./resources/js/chart.min.js"></script>
     <script language="javascript">
 
@@ -99,18 +127,17 @@ $conn = connect();
             var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
             chart.draw(data, options);
         }
+        function abrirPDF() {
+            window.open('vistasVideos.pdf', '_blank');
+        }
     </script>
 
     </div>
 
-        <div class="ContenedorGrid">
-
-
-
-        </div>
-
     <div>
-
+        <br><br>
+        <h3>Generar y Abrir PDF</h3>
+        <button onclick="abrirPDF()">Abrir PDF</button>
     </div>
         
     <br><br>
