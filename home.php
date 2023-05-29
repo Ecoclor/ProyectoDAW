@@ -96,7 +96,16 @@ while($checkdb=mysqli_fetch_array($result)){
             <input type='submit' value='Buscar' name='movie_search'>
         </form>
         <br>
-
+        <label><b>Filtros de búsqueda: </b></label>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+            <input type="radio" name="movie_filter" id="alphabetical" value="alphabetical">
+            <label for="alphabetical">Alfabético</label><br>
+            <input type="radio" name="movie_filter" id="published_date" value="published_date">
+            <label for="published_date">Fecha de publicación</label><br>
+            <input type="radio" name="movie_filter" id="viewers" value="viewers">
+            <label for="viewers">Visualizaciones</label><br>
+            <input type="submit" value="Ordenar">
+        </form>
         <br>
         <h1>Películas</h1>
         <div class="ContenedorGrid">
